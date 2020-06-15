@@ -1,10 +1,8 @@
 """
-
-上海期货交易所
+能源中心
 
 """
 import time
-
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -80,12 +78,12 @@ def login(driver, username, passwd):
     # 开始登陆
     islogin = False
     try:
-        # 打开上交所网站
-        driver.get('https://192.168.9.113')
+        # 打开能源中心网站
+        driver.get('https://192.168.13.21')
         WebDriverWait(driver, timeout=10).until(EC.presence_of_element_located(By.XPATH, locator1))
-        print('999921||上交所会服系统登陆||已打开上交所会服系统登陆界面，开始执行登陆操作')
+        print('999921||能源中心会服系统登陆||已打开能源中心会服系统登陆界面，开始执行登陆操作')
     except BaseException as err:
-        print('999931||上交所会服系统登陆||上交所会服系统连接服务器超时>>' + str(err) + '\n请人工介入！')
+        print('999931||能源中心会服系统登陆||能源中心会服系统连接服务器超时>>' + str(err) + '\n请人工介入！')
     # 输入用户名、密码
     element = Find_Element(driver, 5, locator1).send_keys(username)
     element = Find_Element(driver, 5, locator2).send_keys(passwd)
@@ -101,16 +99,15 @@ def login(driver, username, passwd):
         # 验证是否登录成功
         try:
             WebDriverWait(driver, timeout=10).until(EC.presence_of_element_located(By.XPATH, locator6))
-            print('999921||上交所会服系统登陆||上交所会服系统登陆成功！')
+            print('999921||能源中心会服系统登陆||能源中心会服系统登陆成功！')
             islogin = True
             break
         except BaseException as err:
-            print('999921||上交所会服系统登陆||上交所回复系统登陆失败，将在3秒后进行第{}次重试'.format(i + 1))
+            print('999921||能源中心会服系统登陆||能源中心回复系统登陆失败，将在3秒后进行第{}次重试'.format(i + 1))
             i += 1
             time.sleep(3)
     else:
-        print('999931||上交所会服系统登陆||上交所回复系统登陆失败，请人工介入')
-        driver.quit()
+        print('999931||能源中心会服系统登陆||能源中心回复系统登陆失败，请人工介入')
 
     return islogin
 
@@ -143,14 +140,15 @@ def transferfund(driver, bank, fund):
         element = Find_Element(driver, 5, locator3).click()
         WebDriverWait(driver, timeout=10).until(EC.presence_of_element_located(By.XPATH, locator4))
         isIn = True
-        print('999921||上交所会服入金||已进入上交所出入金申请制单界面')
+        print('999921||能源中心会服入金||已进入能源中心出入金申请制单界面')
     except BaseException as err:
-        print('999921||上交所会服入金||进入上交所出入金申请制单界面失败>>' + str(err))
+        print('999921||能源中心会服入金||进入能源中心出入金申请制单界面失败>>' + str(err))
+        driver.quit()
 
     # 开始入金操作
     if isIn:
         try:
-            print('999921||上交所会服入金||开始上交所入金操作')
+            print('999921||能源中心会服入金||开始能源中心入金操作')
             element = Find_Element(driver, 5, locator4).click()
             WebDriverWait(driver, timeout=10).until(EC.presence_of_element_located(By.XPATH, locator5))
             docno = ''  # 需确认docno（单据号）的获取方式
@@ -167,12 +165,12 @@ def transferfund(driver, bank, fund):
             element = Find_Element(driver, 5, locator14).click()
             element = Find_Element(driver, 5, locator15).click()
             WebDriverWait(driver, timeout=10).until(EC.presence_of_element_located(By.XPATH, locator16))
-            print('999921||上交所会服入金||上交所入金操作成功')
+            print('999921||能源中心会服入金||能源中心入金操作成功')
             driver.quit()
         except BaseException as err:
-            print('999931||上交所会服系统登陆||上交所入金操作失败>>' + str(err) + '\n请人工介入！')
+            print('999931||能源中心会服系统登陆||能源中心入金操作失败>>' + str(err) + '\n请人工介入！')
     else:
-        print('999931||上交所会服入金||请人工介入！')
+        print('999931||能源中心会服入金||请人工介入！')
         driver.quit()
 
 
@@ -185,5 +183,3 @@ if __name__ == "__main__":
     islogin = login(driver, username, passwd)
     if islogin:
         transferfund(driver, bank, fund)
-
-
