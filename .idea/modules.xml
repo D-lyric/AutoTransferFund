@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/AutoTransferFund.iml" filepath="$PROJECT_DIR$/.idea/AutoTransferFund.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../CTPcaculate/.idea/CTPcaculate.iml" filepath="$PROJECT_DIR$/../CTPcaculate/.idea/CTPcaculate.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../cloud_platform-完整包/.idea/cloud_platform-完整包.iml" filepath="$PROJECT_DIR$/../cloud_platform-完整包/.idea/cloud_platform-完整包.iml" />
     </modules>
   </component>
 </project>

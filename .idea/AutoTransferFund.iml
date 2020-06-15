@@ -6,5 +6,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="CTPcaculate" />
+    <orderEntry type="module" module-name="cloud_platform-完整包" />
   </component>
 </module>
