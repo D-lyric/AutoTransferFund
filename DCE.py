@@ -73,8 +73,40 @@ def Find_Element(driver, mode, locator):
 
 
 # 登录
-def login():
-    pass
+def login(driver, passwd):
+    # 页面元素定位
+    locator1 = ''  # 登录
+    locator2 = ''  # 确认证书
+    locator3 = ''  # 密码输入框
+    locator4 = ''  # 密码确认
+    locator5 = ''  # 继续浏览此网站
+    locator6 = ''  # 电子划款业务
+
+    isLogin = False
+    try:
+        driver.get('https://10.10.36.3')
+        WebDriverWait(driver, timeout=10).until(EC.presence_of_element_located(By.XPATH, locator1))
+        print('999921||大商所会服入金||已打开大商所登录页面')
+    except BaseException as err:
+        print('999931||大商所会服登录||大商所会服系统服务器连接超时>>' + str(err) + '\n请人工介入！')
+
+    # 录入登录信息
+    try:
+        print('999921||大商所会服登录||开始执行登陆操作')
+        element = Find_Element(driver, 5, locator1).click()
+        WebDriverWait(driver, timeout=10).until(EC.presence_of_element_located(By.XPATH, locator2))
+        element = Find_Element(driver, 5, locator2).click()
+        WebDriverWait(driver, timeout=10).until(EC.presence_of_element_located(By.XPATH, locator3))
+        element = Find_Element(driver, 5, locator3).send_keys(passwd)
+        element = Find_Element(driver, 5, locator4).click()
+        WebDriverWait(driver, timeout=10).until(EC.presence_of_element_located(By.XPATH, locator5))
+        element = Find_Element(driver, 5, locator5).click()
+        WebDriverWait(driver, timeout=10).until(EC.presence_of_element_located(By.XPATH, locator6))
+        isLogin = True
+        print('999921||大商所会服登录||已成功登陆大商所会服系统')
+    except BaseException as err:
+        print('999931||大商所会服登录||大商所会服系统登陆失败>>' + str(err) + '\n请人工介入！')
+
 
 # 入金操作
 def transferfund(driver, bank, fund):
@@ -119,3 +151,20 @@ def transferfund(driver, bank, fund):
     else:
         print('999931||大商所会服入金||请人工介入！')
         driver.quit()
+
+
+if __name__ == "__main__":
+    """
+    :param passwd: UKEY密码
+    :param bank 入金银行
+    :param fund 入金金额
+    """
+
+    passwd = ''
+    bank = ''
+    fund = ''
+
+    driver = IEdriverbrowser()
+    isLogin = login(driver, passwd)
+    if isLogin:
+        transferfund(driver, bank, fund)

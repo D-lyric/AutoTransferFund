@@ -69,8 +69,21 @@ def Find_Element(driver, mode, locator):
 
 
 # 登录
-def login(passwd):
-    pass
+def login(driver, passwd):
+    # 页面元素定位
+    locator1 = ''  # 入金管理
+    locator2 = ''  # 录入
+    locator3 = ''  # 资金类型下拉框
+    locator4 = ''  # 保证金选项
+    locator5 = ''  # 银行下拉框
+    locator6 = ''  # 申请金额输入框
+    locator7 = ''  # 提交
+    locator8 = ''  # 提交成功确认
+
+    driver = IEdriverbrowser()
+    driver.get('https://member.czce.com.cn')
+
+
 
 
 # 入金操作
