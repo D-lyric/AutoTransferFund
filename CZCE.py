@@ -67,12 +67,14 @@ def Find_Element(driver, mode, locator):
     except BaseException as err:
         print(err)
 
+
 # 登录
-def login():
+def login(passwd):
     pass
 
+
 # 入金操作
-def transferfund(bank, fund):
+def transferfund(driver, bank, fund):
     # 页面元素定位
     locator1 = ''  # 入金管理
     locator2 = ''  # 录入
@@ -96,7 +98,7 @@ def transferfund(bank, fund):
         print('999921||郑商所会服入金||已进入录入界面')
         isIn = True
     except BaseException as err:
-        print('999931||郑商所会服入金||进入录入界面失败>>'+ str(err))
+        print('999931||郑商所会服入金||进入录入界面失败>>' + str(err))
 
     # 开始入金操作
     if isIn:
@@ -111,6 +113,26 @@ def transferfund(bank, fund):
             WebDriverWait(driver, timeout=10).until(EC.presence_of_element_located(By.XPATH, locator8))
             print('999921||郑商所会服入金||入金操作成功！')
         except BaseException as err:
-            print('999931||郑商所会服入金||入金操作失败>>'+str(err)+'\n请人工介入！')
+            print('999931||郑商所会服入金||入金操作失败>>' + str(err) + '\n请人工介入！')
     else:
         print('999931||郑商所会服入金||请人工介入！')
+
+if __name__ == "__main":
+    """
+    
+    :param psswd: UKEY密码
+    :param bank: 银行
+    :param fund: 入金金额
+    
+    """
+    # 入参
+    passwd = ''
+    bank = ''
+    fund = ''
+
+    # 实例化IE浏览器驱动
+    driver = IEdriverbrowser()
+    driver.get('https://member.czce.com.cn')
+    islogin = login(passwd)
+    if islogin:
+        transferfund(driver, bank, fund)
