@@ -177,6 +177,12 @@ def transferfund(driver, bank, fund):
 
 
 if __name__ == "__main__":
+    """
+    :param username: 用户名
+    :param passwd: 密码
+    :param bank: 银行
+    :param fund: 入金金额
+    """
     username = ''
     passwd = ''
     bank = ''
