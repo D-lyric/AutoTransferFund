@@ -68,37 +68,40 @@ def Find_Element(driver, mode, locator):
 # 登录
 def login(driver, username, passwd):
     # 页面定位元素
-    locator1 = ''  # 用户名
-    locator2 = ''  # 密码
-    locator3 = ''  # 验证码输入框
-    locator4 = ''  # 验证码刷新按钮
-    locator5 = ''  # 登陆按钮
-    locator6 = ''  # 电子出入金
+    locator1 = 'input#formUserName'  # 用户名
+    locator2 = 'input#formPassword'  # 密码
+    locator3 = 'input#imageCheck'  # 验证码输入框
+    locator4 = 'img[alt="看不清，换一张"]'  # 验证码刷新按钮
+    locator5 = '//td[./img[@src="images/login.gif"]]'  # 登陆按钮
+    locator6 = '//td[text()="电子出入金"]'  # 电子出入金
 
     # 开始登陆
     islogin = False
     try:
         # 打开能源中心网站
-        driver.get('https://192.168.13.21')
-        WebDriverWait(driver, timeout=10).until(EC.presence_of_element_located(By.XPATH, locator1))
+        driver.get('https://42.24.1.245/')
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'a#overridelink')))
+        element = Find_Element(driver, 4, 'a#overridelink').click()
+        element = Find_Element(driver, 4, 'a#overridelink').click()
+        WebDriverWait(driver, timeout=10).until(EC.presence_of_element_located((By.CSS_SELECTOR, locator1)))
         print('999921||能源中心会服系统登陆||已打开能源中心会服系统登陆界面，开始执行登陆操作')
     except BaseException as err:
         print('999931||能源中心会服系统登陆||能源中心会服系统连接服务器超时>>' + str(err) + '\n请人工介入！')
     # 输入用户名、密码
-    element = Find_Element(driver, 5, locator1).send_keys(username)
+    element = Find_Element(driver, 4, locator1).send_keys(username)
     element = Find_Element(driver, 5, locator2).send_keys(passwd)
     i = 0
     while i < 10:
         # 输入图片验证码
-        element = Find_Element(driver, 5, locator4).click()
+        element = Find_Element(driver, 4, locator4).click()
         vercode = getValidationCode.getCodeStr(driver)
-        element = Find_Element(driver, 5, locator3)
+        element = Find_Element(driver, 4, locator3)
         element.clear()
         element.send_keys(vercode)
-        element = Find_Element(driver, 5, locator5)
+        element = Find_Element(driver, 5, locator5).click()
         # 验证是否登录成功
         try:
-            WebDriverWait(driver, timeout=10).until(EC.presence_of_element_located(By.XPATH, locator6))
+            WebDriverWait(driver, timeout=10).until(EC.presence_of_element_located((By.XPATH, locator6)))
             print('999921||能源中心会服系统登陆||能源中心会服系统登陆成功！')
             islogin = True
             break
@@ -115,21 +118,21 @@ def login(driver, username, passwd):
 # 资金划拨
 def transferfund(driver, bank, fund):
     # 页面定位元素
-    locator1 = ''  # 电子出入金
-    locator2 = ''  # 出入金申请
-    locator3 = ''  # 出入金申请制单
-    locator4 = ''  # 新建
-    locator5 = ''  # 单据号
-    locator6 = ''  # 资金账户下拉框
-    locator7 = ''  # 02590101(CNY)选项
-    locator8 = ''  # 银行名称下拉框
-    locator9 = ''  # 资金用途下拉框
-    locator10 = ''  # 批准划转款选项
-    locator11 = ''  # 方向下拉框
-    locator12 = ''  # 入金选项
-    locator13 = ''  # 金额
-    locator14 = ''  # 勾选框
-    locator15 = ''  # 确定
+    locator1 = '//td[text()="电子出入金"]'  # 电子出入金
+    locator2 = '//td[text()="出入金申请"]'  # 出入金申请
+    locator3 = '//td[text()="出入金申请制单"]'  # 出入金申请制单
+    locator4 = 'button#btnAddDW'  # 新建
+    locator5 = 'input#dwForm_editor_certNo'  # 单据号
+    locator6 = 'input#dwForm_editor_accountID'  # 资金账户下拉框
+    # locator7 = ''  # 02590101(CNY)选项,暂不需要
+    locator8 = 'input#dwForm_editor_bankID'  # 银行名称下拉框
+    locator9 = 'input#dwForm_editor_zjTypeID'  # 资金用途下拉框
+    # locator10 = ''  # 批准划转款选项,暂不需要
+    locator11 = 'input#dwForm_editor_DWDirection'  # 方向下拉框
+    # locator12 = ''  # 入金选项
+    locator13 = 'input#dwForm_editor_applyAmt'  # 金额
+    locator14 = 'input#isAgree'  # 勾选框
+    locator15 = 'button#btnConfirm'  # 确定
     locator16 = ''  # 入金成功确认
 
     isIn = False
@@ -138,7 +141,7 @@ def transferfund(driver, bank, fund):
         element = Find_Element(driver, 5, locator1).click()
         element = Find_Element(driver, 5, locator2).click()
         element = Find_Element(driver, 5, locator3).click()
-        WebDriverWait(driver, timeout=10).until(EC.presence_of_element_located(By.XPATH, locator4))
+        WebDriverWait(driver, timeout=10).until(EC.presence_of_element_located((By.CSS_SELECTOR, locator4)))
         isIn = True
         print('999921||能源中心会服入金||已进入能源中心出入金申请制单界面')
     except BaseException as err:
@@ -149,22 +152,22 @@ def transferfund(driver, bank, fund):
     if isIn:
         try:
             print('999921||能源中心会服入金||开始能源中心入金操作')
-            element = Find_Element(driver, 5, locator4).click()
-            WebDriverWait(driver, timeout=10).until(EC.presence_of_element_located(By.XPATH, locator5))
+            element = Find_Element(driver, 4, locator4).click()
+            WebDriverWait(driver, timeout=10).until(EC.presence_of_element_located((By.CSS_SELECTOR, locator5)))
             docno = ''  # 需确认docno（单据号）的获取方式
-            element = Find_Element(driver, 5, locator5).send_keys(docno)
-            element = Find_Element(driver, 5, locator6).click()
-            element = Find_Element(driver, 5, locator7).click()
-            element = Find_Element(driver, 5, locator8).click()
-            element = Find_Element(driver, 5, bank).click()
-            element = Find_Element(driver, 5, locator9).click()
-            element = Find_Element(driver, 5, locator10).click()
-            element = Find_Element(driver, 5, locator11).click()
-            element = Find_Element(driver, 5, locator12).click()
-            element = Find_Element(driver, 5, locator13).send_keys(fund)
-            element = Find_Element(driver, 5, locator14).click()
-            element = Find_Element(driver, 5, locator15).click()
-            WebDriverWait(driver, timeout=10).until(EC.presence_of_element_located(By.XPATH, locator16))
+            element = Find_Element(driver, 4, locator5).send_keys(docno)
+            element = Find_Element(driver, 4, locator6).send_keys('02590101(CNY)')
+            # element = Find_Element(driver, 5, locator7).click()
+            element = Find_Element(driver, 4, locator8).send_keys(bank)
+            # element = Find_Element(driver, 5, bank).click()
+            element = Find_Element(driver, 4, locator9).send_keys('批准划转款选项')
+            # element = Find_Element(driver, 5, locator10).click()
+            element = Find_Element(driver, 4, locator11).send_keys('入金')
+            # element = Find_Element(driver, 5, locator12).click()
+            element = Find_Element(driver, 4, locator13).send_keys(fund)
+            element = Find_Element(driver, 4, locator14).click()
+            element = Find_Element(driver, 4, locator15).click()
+            WebDriverWait(driver, timeout=10).until(EC.presence_of_element_located((By.XPATH, locator16)))
             print('999921||能源中心会服入金||能源中心入金操作成功')
             driver.quit()
         except BaseException as err:
@@ -173,7 +176,7 @@ def transferfund(driver, bank, fund):
         print('999931||能源中心会服入金||请人工介入！')
         driver.quit()
 
-
+import os
 if __name__ == "__main__":
     """
     :param username: 用户名
@@ -181,11 +184,22 @@ if __name__ == "__main__":
     :param bank: 银行
     :param fund: 入金金额
     """
+
     username = ''
     passwd = ''
     bank = ''
     fund = ''
-    driver = IEdriverbrowser()
-    islogin = login(driver, username, passwd)
-    if islogin:
-        transferfund(driver, bank, fund)
+    # driver = IEdriverbrowser()
+    # islogin = login(driver, username, passwd)
+    # if islogin:
+    #     transferfund(driver, bank, fund)
+
+    # driver.get('https://42.24.1.245/')
+    # WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'a#overridelink')))
+    # element = Find_Element(driver, 4, 'a#overridelink').click()
+    # element = Find_Element(driver, 4, 'a#overridelink').click()
+    # element = Find_Element(driver, 4, 'img[alt="看不清，换一张"]').click()
+    # element = Find_Element(driver, 5, '//td[./img[@src="images/login.gif"]]').click()
+    cmd = r"C:\Users\Administrator\AppData\Local\Programs\Python\Python38\lib\site-packages\torch\lib\c10.dll"
+    os.add_dll_directory(cmd)
+
