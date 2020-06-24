@@ -5,12 +5,12 @@ Created by Kunhong Yu
 Date: 2020/05/19
 """
 import torch as t
-from config import Config
+from Utils.captcha_recognition2.config import Config
 import os
-import fire
-from public.captcha_recognition2.utils import get_dataloader, get_preds
-from public.captcha_recognition2.models import LeNet
-from public.captcha_recognition2.config import Config
+# import fire
+from Utils.captcha_recognition2.utils import get_dataloader, get_preds
+from Utils.captcha_recognition2.models import LeNet
+from Utils.captcha_recognition2.config import Config
 
 def test_model(**kwargs):
     """This function is used to test model"""
@@ -27,7 +27,7 @@ def test_model(**kwargs):
     #load the model#
     model = LeNet()
     #model.load_state_dict(t.load('./checkpoints' + os.sep + opt.model_str + os.sep + 'saved_model.pth', map_location = device))
-    model.load_state_dict(t.load('./public/captcha_recognition2/checkpoints' + os.sep + opt.model_str + os.sep + 'saved_model.pth', map_location = device))
+    model.load_state_dict(t.load(r'.\Utils\captcha_recognition2\checkpoints' + os.sep + opt.model_str + os.sep + 'saved_model.pth', map_location = device))
     #path = os.path.abspath('.') + r"\checkpoints\lenet\saved_model.pth"
     #model.load_state_dict(t.load(path, map_location = device))
     model.to(device)

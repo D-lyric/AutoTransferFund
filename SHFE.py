@@ -4,7 +4,7 @@
 
 """
 import time
-
+import os
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -12,6 +12,8 @@ from selenium import webdriver
 from selenium.webdriver import IeOptions
 from selenium.webdriver.ie.options import Options
 from Utils.captcha_recognition2 import getValidationCode
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver import ChromeOptions
 
 
 def IEdrivernobrowser():
@@ -32,6 +34,28 @@ def IEdriverbrowser():
     option = IeOptions()
     option.add_additional_option('excludeSwitches', ['enable-automation'])
     driver = webdriver.Ie(options=option)
+    return driver
+
+# 正常启动
+def chromedriverbrowser():
+    option = ChromeOptions()
+    option.add_experimental_option('excludeSwitches', ['enable-automation'])
+    driver = webdriver.Chrome(options=option)
+    return driver
+
+
+# 用于打开可直接被selenium接管的Chrome浏览器
+def chromebrowser_debug():
+    cmd_command = 'chrome.exe --remote-debugging-port=9222 --user-data-dir="C:\selenum\AutomationProfile"'
+    os.system(cmd_command)
+
+
+# 接管通过cmd命令打开的Chrome浏览器
+def chromedriver_debug():
+    chrome_options = Options()
+    chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
+    chrome_driver = r"C:\Users\Administrator\AppData\Local\Google\Chrome\Application\chromedriver.exe"
+    driver = webdriver.Chrome(chrome_driver, chrome_options=chrome_options)
     return driver
 
 
@@ -118,9 +142,9 @@ def login(driver, username, passwd):
 # 资金划拨
 def transferfund(driver, bank, fund):
     # 页面定位元素
-    locator1 = ''  # 电子出入金
-    locator2 = ''  # 出入金申请
-    locator3 = ''  # 出入金申请制单
+    locator1 = '//td[text()="电子出入金"]'  # 电子出入金
+    locator2 = '//td[text()="出入金申请"]'  # 出入金申请
+    locator3 = '//td[text()="出入金申请制单"]'  # 出入金申请制单
     locator4 = ''  # 新建
     locator5 = ''  # 单据号
     locator6 = ''  # 资金账户下拉框
@@ -176,20 +200,23 @@ def transferfund(driver, bank, fund):
         driver.quit()
 
 
+# if __name__ == "__main__":
+#     """
+#     :param username: 用户名
+#     :param passwd: 密码
+#     :param bank: 银行
+#     :param fund: 入金金额
+#     """
+#     username = ''
+#     passwd = ''
+#     bank = ''
+#     fund = ''
+#     driver = IEdriverbrowser()
+#     islogin = login(driver, username, passwd)
+#     if islogin:
+#         transferfund(driver, bank, fund)
+
 if __name__ == "__main__":
-    """
-    :param username: 用户名
-    :param passwd: 密码
-    :param bank: 银行
-    :param fund: 入金金额
-    """
-    username = ''
-    passwd = ''
-    bank = ''
-    fund = ''
-    driver = IEdriverbrowser()
-    islogin = login(driver, username, passwd)
-    if islogin:
-        transferfund(driver, bank, fund)
+    driver = chromedriver_debug()
 
 

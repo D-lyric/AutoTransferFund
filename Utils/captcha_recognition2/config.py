@@ -19,7 +19,7 @@ class Config():
 
     model_str = 'lenet'
 
-    use_gpu = True
+    use_gpu = False
     verification = True
     extend_format = 'jpg'
     # def __init__(self, picPath):
